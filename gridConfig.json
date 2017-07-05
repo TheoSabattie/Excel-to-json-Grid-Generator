@@ -1,5 +1,5 @@
 {
-  "filePath": "./grid.xlsx",
-  "cellsSheetName": "Cells",
-  "paramsSheetName": "Params"
+	"filePath": "./grid.xlsx",
+	"cellsSheetName": "Cells",
+	"paramsSheetName": "Params"
 }
