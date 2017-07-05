@@ -1,9 +1,8 @@
-var fs          	  = require('fs-extra');
+var fs                = require('fs-extra');
 var GridJsonGenerator = require("./gridjsongenerator")
-const EXCEL_EXT 	  = ".xlsx";
+const EXCEL_EXT       = ".xlsx";
 
 init();
-
 
 
 function init(){
@@ -12,55 +11,56 @@ function init(){
             if (err.code == 'ENOENT'){
                 console.log("ConfigException : Config does not exist. Creation of default config file 'gridConfig.json'. Please, complete it! Try to use it...");
                 config = getDefaultConfig();
-				writeDefaultConfig(config);
+		writeDefaultConfig(config);
             } else {
-				console.log("ConfigException : " + err);
-	            return;
+		console.log("ConfigException : " + err);
+	        return;
             }
         }
+	    
         var errorMsg = getConfigurationErrorMessage(config);
 
         if (errorMsg){
-        	throw errorMsg.bgRed;
-        	return;
+            throw errorMsg.bgRed;
+            return;
         }
 
         var gridJsonGenerator = new GridJsonGenerator(config);
 
         fs.writeJson('grid.json', gridJsonGenerator.generatedJson, function(err){
-		     if (err){
-		         console.log("WriteJsonException : " + err);
-		     } else {
-		         console.log("grid.json is write with success!");
-		     }
-		 });
+	    if (err){ 
+                console.log("WriteJsonException : " + err);
+            } else {
+                console.log("grid.json is write with success!");
+	    }
+        });
     });
 }
 
 
 
 function writeDefaultConfig(config){
-	fs.writeJson('./gridConfig.json', config, function (err) {
+    fs.writeJson('./gridConfig.json', config, function (err) {   
         if (err) {
             console.log(err)
-		}
+	}
     });
 }
 
 
 
 function getDefaultConfig(){
-	return {
-		filePath 		: "./grid" + EXCEL_EXT,
+    return {
+	filePath        : "./grid" + EXCEL_EXT,
         cellsSheetName  : "Cells",
         paramsSheetName : "Params"
-	};
+    };
 }
 
 
 
 function getConfigurationErrorMessage(config){
-	if (!config.filePath){
+    if (!config.filePath){
         return "ConfigException : filePath is not defined";
     } else if (!objIsString(config.filePath)){
     	return "ConfigException : filePath must be a string";
@@ -86,5 +86,5 @@ function getConfigurationErrorMessage(config){
 
 
 function objIsString(obj){
-	return typeof(obj) == "string";
+    return typeof(obj) == "string";
 }
